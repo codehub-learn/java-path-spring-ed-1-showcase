@@ -33,7 +33,7 @@
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="DefaultAppender"/>
 		</AsyncLogger>
-		<AsyncLogger name="org.springframework" level="debug" additivity="false">
+		<AsyncLogger name="org.springframework" level="info" additivity="false">
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="DefaultAppender"/>
 		</AsyncLogger>
