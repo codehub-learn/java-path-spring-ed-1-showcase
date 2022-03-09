@@ -7,10 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-/**
- * Bootstrap class demonstrating the retrieval of database information. It runs only once during application
- * initialization.
- */
 @Component
 @Order(2)
 @RequiredArgsConstructor
