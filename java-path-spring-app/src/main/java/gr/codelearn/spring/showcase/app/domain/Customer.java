@@ -1,11 +1,15 @@
 package gr.codelearn.spring.showcase.app.domain;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
-public class Customer {
+@SuperBuilder
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class Customer extends BaseModel {
 	private String email;
 	private String firstname;
 	private String lastname;
