@@ -1,12 +1,14 @@
 package gr.codelearn.spring.showcase.app.service;
 
+import gr.codelearn.spring.showcase.app.base.BaseComponent;
 import gr.codelearn.spring.showcase.app.domain.BaseModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public abstract class BaseServiceImpl<T extends BaseModel> implements BaseService<T, Long> {
+public abstract class BaseServiceImpl<T extends BaseModel> extends BaseComponent implements BaseService<T, Long> {
 	public abstract JpaRepository<T, Long> getRepository();
 
 	public T create(T item) {
@@ -34,7 +36,7 @@ public abstract class BaseServiceImpl<T extends BaseModel> implements BaseServic
 	}
 
 	public T get(Long id) {
-		return getRepository().getById(id);
+		return getRepository().findById(id).orElseThrow(NoSuchElementException::new);
 	}
 
 	public boolean exists(T item) {
