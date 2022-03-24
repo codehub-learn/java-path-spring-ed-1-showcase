@@ -11,6 +11,8 @@ import gr.codelearn.spring.showcase.app.transfer.PurchasesPerCustomerCategoryDto
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -93,6 +95,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public Order checkout(Order order, PaymentMethod paymentMethod) {
 		if (!validate(order)) {
 			logger.warn("Order should have customer, order items, and payment type defined before being able to " +
