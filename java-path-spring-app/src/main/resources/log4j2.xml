@@ -80,6 +80,10 @@
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="DefaultAppender"/>
 		</AsyncLogger>
+		<AsyncLogger name="org.springframework.transaction" level="trace" additivity="false">
+			<AppenderRef ref="ConsoleAppender"/>
+			<AppenderRef ref="DefaultAppender"/>
+		</AsyncLogger>
 		<AsyncLogger name="org.springframework.data" level="info" additivity="false">
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="DataAppender"/>

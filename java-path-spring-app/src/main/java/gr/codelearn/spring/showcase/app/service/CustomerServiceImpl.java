@@ -7,6 +7,7 @@ import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,11 +28,13 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<KeyValue<String, Long>> findCustomersPurchasedMostExpensiveProduct() {
 		return customerRepository.findCustomersPurchasedMostExpensiveProduct();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<KeyValue<String, BigDecimal>> getStatistics() {
 		//@formatter:off
 		return List.of(

@@ -11,6 +11,7 @@ import gr.codelearn.spring.showcase.app.transfer.PurchasesPerCustomerCategoryDto
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -136,22 +137,26 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	}
 
 	@Override
-	public Order getLazy(Long id) {
-		return orderRepository.getLazy(id).orElseThrow(NoSuchElementException::new);
-	}
-
-	@Override
-	public List<Order> findAllLazy() {
-		return orderRepository.findAllLazy();
-	}
-
-	@Override
+	@Transactional(readOnly = true)
 	public List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory() {
 		return orderRepository.findTotalNumberAndCostOfPurchasesPerCustomerCategory();
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer() {
 		return orderRepository.findAverageOrderCostPerCustomer();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Order getLazy(Long id) {
+		return orderRepository.getLazy(id).orElseThrow(NoSuchElementException::new);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Order> findAllLazy() {
+		return orderRepository.findAllLazy();
 	}
 }
