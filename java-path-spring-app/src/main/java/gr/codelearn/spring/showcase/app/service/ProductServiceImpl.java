@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductServiceImpl extends BaseServiceImpl<Product> implements ProductService {
 	private final ProductRepository productRepository;
 
@@ -18,7 +19,6 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Product findBySerial(String serial) {
 		return productRepository.findBySerial(serial);
 	}

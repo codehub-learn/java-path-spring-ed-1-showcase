@@ -11,35 +11,30 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 public abstract class BaseServiceImpl<T extends BaseModel> extends BaseComponent implements BaseService<T, Long> {
 	public abstract JpaRepository<T, Long> getRepository();
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public T create(T item) {
 		return getRepository().save(item);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public List<T> createAll(List<T> items) {
 		return getRepository().saveAll(items);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public List<T> createAll(T... items) {
 		return createAll(Arrays.asList(items));
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public void update(T item) {
 		getRepository().save(item);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public void delete(T item) {
 		getRepository().delete(item);
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public void deleteById(Long id) {
 		getRepository().deleteById(id);
 	}

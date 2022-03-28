@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements CustomerService {
 	private final CustomerRepository customerRepository;
 
@@ -28,13 +29,11 @@ public class CustomerServiceImpl extends BaseServiceImpl<Customer> implements Cu
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<KeyValue<String, Long>> findCustomersPurchasedMostExpensiveProduct() {
 		return customerRepository.findCustomersPurchasedMostExpensiveProduct();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<KeyValue<String, BigDecimal>> getStatistics() {
 		//@formatter:off
 		return List.of(

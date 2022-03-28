@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderService {
 	private final OrderRepository orderRepository;
 
@@ -54,7 +55,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 		if (!increasedQuantity) {
 			order.getOrderItems().add(newOrderItem(order, product, quantity));
-			//order.add(newOrderItem(order, product, quantity));
 		}
 
 		logger.debug("Product[{}] added to Order[{}]", product, order);
@@ -140,25 +140,21 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<PurchasesPerCustomerCategoryDto> findTotalNumberAndCostOfPurchasesPerCustomerCategory() {
 		return orderRepository.findTotalNumberAndCostOfPurchasesPerCustomerCategory();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<KeyValue<String, BigDecimal>> findAverageOrderCostPerCustomer() {
 		return orderRepository.findAverageOrderCostPerCustomer();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Order getLazy(Long id) {
 		return orderRepository.getLazy(id).orElseThrow(NoSuchElementException::new);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<Order> findAllLazy() {
 		return orderRepository.findAllLazy();
 	}

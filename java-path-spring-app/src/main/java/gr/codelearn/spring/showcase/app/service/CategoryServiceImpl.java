@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryServiceImpl extends BaseServiceImpl<Category> implements CategoryService {
 	private final CategoryRepository categoryRepository;
 
@@ -18,7 +19,6 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public Category findByDescription(final String description) {
 		return categoryRepository.findByDescription(description);
 	}
