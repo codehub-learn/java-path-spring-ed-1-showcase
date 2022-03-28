@@ -80,7 +80,7 @@
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="DefaultAppender"/>
 		</AsyncLogger>
-		<AsyncLogger name="org.springframework.transaction" level="trace" additivity="false">
+		<AsyncLogger name="org.springframework.transaction" level="debug" additivity="false">
 			<AppenderRef ref="ConsoleAppender"/>
 			<AppenderRef ref="DefaultAppender"/>
 		</AsyncLogger>
