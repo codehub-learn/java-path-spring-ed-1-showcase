@@ -1,5 +1,6 @@
 package gr.codelearn.spring.showcase.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import gr.codelearn.spring.showcase.app.transfer.KeyValue;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlRootElement;
 
 //@formatter:off
 @NamedNativeQuery(name = "Customer.purchasedMostExpensiveProduct",
@@ -34,6 +37,7 @@ import javax.validation.constraints.NotNull;
 )
 //@formatter:on
 
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -42,12 +46,14 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "CUSTOMERS", indexes = {@Index(columnList = "email")})
 @SequenceGenerator(name = "idGenerator", sequenceName = "CUSTOMERS_SEQ", initialValue = 1, allocationSize = 1)
+@XmlRootElement
 public class Customer extends BaseModel {
-	@NotNull
+	@NotNull(message = "Email cannot be null")
+	@Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message="{email.pattern}")
 	@Column(length = 50, nullable = false, unique = true)
 	private String email;
 
-	@NotNull
+	@NotNull(message = "{firstname.null}")
 	@Column(length = 20, nullable = false)
 	private String firstname;
 
