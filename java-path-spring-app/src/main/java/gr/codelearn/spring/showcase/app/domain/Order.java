@@ -1,5 +1,6 @@
 package gr.codelearn.spring.showcase.app.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Order extends BaseModel {
 	@Column(nullable = false)
 	private Date submitDate;
 
+	@JsonManagedReference("orderItems")
 	@ToString.Exclude
 	@EqualsAndHashCode.Exclude
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
