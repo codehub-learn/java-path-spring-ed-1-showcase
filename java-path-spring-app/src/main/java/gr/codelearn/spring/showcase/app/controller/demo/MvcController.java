@@ -8,7 +8,7 @@ import gr.codelearn.spring.showcase.app.domain.Product;
 import gr.codelearn.spring.showcase.app.service.CustomerService;
 import gr.codelearn.spring.showcase.app.service.OrderService;
 import gr.codelearn.spring.showcase.app.service.ProductService;
-import gr.codelearn.spring.showcase.app.service.demo.JokeServiceImpl;
+import gr.codelearn.spring.showcase.app.service.demo.JokeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +31,7 @@ import java.util.Optional;
 @RequestMapping("mvc")
 @AllArgsConstructor
 public class MvcController extends BaseComponent {
-
-	private final JokeServiceImpl jokeServiceImpl;
+	private final JokeService jokeServiceImpl;
 	private final ProductService productService;
 	private final OrderService orderService;
 	private final CustomerService customerService;
@@ -40,7 +39,7 @@ public class MvcController extends BaseComponent {
 	@GetMapping
 	public String index(Model model) {
 		String joke = jokeServiceImpl.get(new String[]{"Programming", "Christmas"}, "nsfw", "religious", "political",
-									   "racist", "sexist", "explicit");
+										  "racist", "sexist", "explicit");
 		model.addAttribute("joke", joke);
 		return "home";
 	}
@@ -54,11 +53,11 @@ public class MvcController extends BaseComponent {
 
 	@GetMapping("findOrder")
 	public String findOrder(Model model, @RequestParam(value = "orderId", required = false) Long orderId) {
-		if(orderId != null) {
+		if (orderId != null) {
 			try {
 				Order order = orderService.getLazy(orderId);
 				model.addAttribute("order", order);
-			} catch (NoSuchElementException e){
+			} catch (NoSuchElementException e) {
 				logger.info("Order ID does not exist", e);
 				model.addAttribute("error", "Order does not exist.");
 			}
@@ -89,13 +88,12 @@ public class MvcController extends BaseComponent {
 		return "redirect:/mvc/registerCustomer";
 	}
 
-
-	private void setupCounter(HttpServletRequest request, HttpServletResponse response){
+	private void setupCounter(HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
 		Cookie counterCookie;
-		Optional<Cookie> counterCookieOptional = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("counter"))
-													   .findFirst();
-		if(counterCookieOptional.isPresent()) {
+		Optional<Cookie> counterCookieOptional = Arrays.stream(cookies).filter(
+				cookie -> cookie.getName().equals("counter")).findFirst();
+		if (counterCookieOptional.isPresent()) {
 			counterCookie = counterCookieOptional.get();
 			String valueStr = counterCookie.getValue();
 			int value = Integer.parseInt(valueStr);
