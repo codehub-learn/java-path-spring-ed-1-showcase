@@ -50,55 +50,55 @@ public class OrderController extends AbstractController<Order> {
 
 	@GetMapping(value = "v1")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryV1() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
-											   .build(), HttpStatus.OK);
+		return getV1Content();
 	}
 
 	@GetMapping(value = "v2")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryV2() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(null).build(), HttpStatus.OK);
+		return getV2Content();
 	}
 
 	@GetMapping(headers = "API_VERSION=1")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryHV1() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
-											   .build(), HttpStatus.OK);
+		return getV1Content();
 	}
 
 	@GetMapping(headers = "API_VERSION=2")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryHV2() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(null).build(), HttpStatus.OK);
+		return getV2Content();
 	}
 
 	@GetMapping(params = "version=1")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryPV1() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
-											   .build(), HttpStatus.OK);
+		return getV1Content();
 	}
 
 	@GetMapping(params = "version=2")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryPV2() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(null).build(), HttpStatus.OK);
+		return getV2Content();
 	}
 
 	@GetMapping(produces = "application/vnd.api-v1+json")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryPPV1() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
-											   .build(), HttpStatus.OK);
+		return getV1Content();
 	}
 
 	@GetMapping(produces = "application/vnd.api-v2+json")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategoryPPV2() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(null).build(), HttpStatus.OK);
+		return getV2Content();
 	}
 
+	private ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> getV1Content() {
+		return getContent(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory());
+	}
 
+	private ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> getV2Content() {
+		return getContent(null);
+	}
+
+	private ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> getContent(
+			List<PurchasesPerCustomerCategoryDto> input) {
+		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder().data(input).build(),
+									HttpStatus.OK);
+	}
 }
