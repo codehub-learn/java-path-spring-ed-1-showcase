@@ -3,10 +3,14 @@ package gr.codelearn.spring.showcase.app.controller;
 import gr.codelearn.spring.showcase.app.base.BaseComponent;
 import gr.codelearn.spring.showcase.app.transfer.ApiError;
 import gr.codelearn.spring.showcase.app.transfer.ApiResponse;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -34,6 +38,29 @@ public class CustomExceptionHandler extends BaseComponent {
 		return new ResponseEntity<>(ApiResponse.builder().apiError(
 				getApiError(ex, HttpStatus.NOT_FOUND, request, "Reference to a non-existent object.")).build(),
 									HttpStatus.NOT_FOUND);
+	}
+
+	@ExceptionHandler({AuthenticationException.class, ExpiredJwtException.class, SignatureException.class, AccessDeniedException.class})
+	public final ResponseEntity<ApiResponse<?>> handleSecurityErrors(final RuntimeException ex,
+																	 final WebRequest request) {
+		exceptionSpecificLogging(ex);
+		return new ResponseEntity<>(
+				ApiResponse.builder().apiError(getApiError(ex, HttpStatus.FORBIDDEN, request)).build(),
+				HttpStatus.FORBIDDEN);
+	}
+
+	private void exceptionSpecificLogging(final RuntimeException ex) {
+		if (ex instanceof AccessDeniedException) {
+			logger.error("User does not have access to this resource. Details: {}.", ex.getMessage());
+		} else if (ex instanceof AuthenticationException) {
+			logger.error("User could not be authenticated. Details: {}.", ex.getMessage());
+		} else if (ex instanceof ExpiredJwtException) {
+			logger.error("Authentication token expired, try performing authentication. Details: {}.", ex.getMessage());
+		} else if (ex instanceof SignatureException) {
+			logger.error(
+					"Authentication token signature is probably tampered, try performing authentication. Details: {}.",
+					ex.getMessage());
+		}
 	}
 
 	@ExceptionHandler(DataAccessException.class)

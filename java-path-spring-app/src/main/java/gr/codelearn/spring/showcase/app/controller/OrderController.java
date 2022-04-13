@@ -34,14 +34,14 @@ public class OrderController extends AbstractController<Order> {
 									HttpStatus.OK);
 	}
 
-	@GetMapping(headers = "Action=totalNumberAndCostOfPurchasesPerCustomerCategory")
+	@GetMapping(headers = "action=totalNumberAndCostOfPurchasesPerCustomerCategory")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategory() {
 		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
 											   .data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
 											   .build(), HttpStatus.OK);
 	}
 
-	@GetMapping(headers = "Action=averageOrderCostPerCustomer")
+	@GetMapping(headers = "action=averageOrderCostPerCustomer")
 	public ResponseEntity<ApiResponse<List<KeyValue<String, BigDecimal>>>> averageOrderCostPerCustomer() {
 		return new ResponseEntity<>(ApiResponse.<List<KeyValue<String, BigDecimal>>>builder()
 											   .data(orderService.findAverageOrderCostPerCustomer()).build(),
