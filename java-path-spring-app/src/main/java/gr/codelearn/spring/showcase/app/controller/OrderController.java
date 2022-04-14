@@ -9,6 +9,8 @@ import gr.codelearn.spring.showcase.app.transfer.PurchasesPerCustomerCategoryDto
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,17 +36,17 @@ public class OrderController extends AbstractController<Order> {
 									HttpStatus.OK);
 	}
 
+	@Secured("ROLE_ADMIN")
 	@GetMapping(headers = "action=totalNumberAndCostOfPurchasesPerCustomerCategory")
 	public ResponseEntity<ApiResponse<List<PurchasesPerCustomerCategoryDto>>> totalNumberAndCostOfPurchasesPerCustomerCategory() {
-		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder()
-											   .data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
+		return new ResponseEntity<>(ApiResponse.<List<PurchasesPerCustomerCategoryDto>>builder().data(orderService.findTotalNumberAndCostOfPurchasesPerCustomerCategory())
 											   .build(), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(headers = "action=averageOrderCostPerCustomer")
 	public ResponseEntity<ApiResponse<List<KeyValue<String, BigDecimal>>>> averageOrderCostPerCustomer() {
-		return new ResponseEntity<>(ApiResponse.<List<KeyValue<String, BigDecimal>>>builder()
-											   .data(orderService.findAverageOrderCostPerCustomer()).build(),
+		return new ResponseEntity<>(ApiResponse.<List<KeyValue<String, BigDecimal>>>builder().data(orderService.findAverageOrderCostPerCustomer()).build(),
 									HttpStatus.OK);
 	}
 
