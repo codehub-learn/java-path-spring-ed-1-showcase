@@ -3,8 +3,11 @@ package gr.codelearn.spring.showcase.app.service;
 import gr.codelearn.spring.showcase.app.domain.Category;
 import gr.codelearn.spring.showcase.app.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,5 +44,11 @@ public class CategoryServiceImpl extends BaseServiceImpl<Category> implements Ca
 	public Category findByDescription(String description) {
 		logger.info("Category does not exist in cache, fetching from repository.");
 		return categoryRepository.findByDescription(description);
+	}
+
+	@Caching(evict = {@CacheEvict(value = "categories", allEntries = true), @CacheEvict(value = "category", allEntries = true)})
+	@Scheduled(cron = "0/30 * * * * ?")
+	public void clearCaches() {
+		logger.debug("Clear category-related caches.");
 	}
 }
