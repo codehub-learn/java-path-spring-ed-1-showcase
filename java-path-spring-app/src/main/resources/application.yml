@@ -61,3 +61,5 @@ spring:
       platform: h2
   main:
     web-application-type: servlet
+  cache:
+    cache-names: products, product, categories, category
